@@ -4,12 +4,13 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import QMessageBox
 from PyQt4.QtGui import QWidget
 
-
+#-------------------------------------------------------------------------
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
     def _fromUtf8(s):
         return s
+
 
 # try:
 #     _encoding = QtGui.QApplication.UnicodeUTF8
@@ -19,6 +20,15 @@ except AttributeError:
 #     def _translate(context, text, disambig):
 #         return QtGui.QApplication.translate(context, text, disambig)
 
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+>>>>>>> branch 'master' of https://github.com/qq17908/PythonTech.git
 
 class MyWindow(QtGui.QWidget):
     def __init__(self):
@@ -37,4 +47,5 @@ if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)  
     myshow=MyWindow()
     myshow.show()
-    sys.exit(app.exec_())    
+    sys.exit(app.exec_())
+    print "ok,finish!"
