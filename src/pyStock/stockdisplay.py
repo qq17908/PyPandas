@@ -10,7 +10,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         QtGui.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
-
+    
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     window = MyApp()
