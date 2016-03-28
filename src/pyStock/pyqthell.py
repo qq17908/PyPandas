@@ -11,6 +11,7 @@ class MyWidget(QtGui.QWidget):
         self.quit.setGeometry(62,40,75,30)
         self.quit.setFont(QtGui.QFont("Times",18,QtGui.QFont.Bold))
         self.connect(self.quit, QtCore.SIGNAL("clicked()"),QtGui.qApp,QtCore.SLOT("quit()"))
+        
 app = QtGui.QApplication(sys.argv)
 widget = MyWidget()
 widget.show()
