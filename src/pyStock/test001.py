@@ -28,7 +28,6 @@ try:
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
->>>>>>> branch 'master' of https://github.com/qq17908/PythonTech.git
 
 class MyWindow(QtGui.QWidget):
     def __init__(self):
