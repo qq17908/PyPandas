@@ -4,7 +4,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import QMessageBox
 from PyQt4.QtGui import QWidget
 
-
+#-------------------------------------------------------------------------
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -18,7 +18,6 @@ try:
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
-
 
 class MyWindow(QtGui.QWidget):
     def __init__(self):
@@ -37,4 +36,5 @@ if __name__=="__main__":
     app=QtGui.QApplication(sys.argv)  
     myshow=MyWindow()
     myshow.show()
-    sys.exit(app.exec_())    
+    sys.exit(app.exec_())
+    print "ok,finish!"
