@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//files/PythonProject01.txt=UTF-8
+encoding//src/pandasTrain/__init__.py=utf-8
+encoding//src/pandasTrain/test002.py=utf-8
 encoding//src/pyStock/CompInfo.py=utf-8
 encoding//src/pyStock/Contact.py=utf-8
 encoding//src/pyStock/__init__.py=utf-8
@@ -8,5 +10,4 @@ encoding//src/pyStock/pyqthell.py=utf-8
 encoding//src/pyStock/stockdisplay.py=UTF-8
 encoding//src/pyStock/stockframe.ui=UTF-8
 encoding//src/pyStock/test001.py=utf-8
-encoding//src/pyStock/test002.py=utf-8
 encoding//src/pyStock/ui_stockframe.py=utf-8
