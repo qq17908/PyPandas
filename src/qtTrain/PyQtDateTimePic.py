@@ -6,6 +6,21 @@ import sys
 import random
 from PyQt4 import QtGui, QtCore,Qt
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
+
 class report_painter:
     '''绘制行情类'''
     def __init__(self,parent):
@@ -67,8 +82,8 @@ class report_painter:
         #开始绘制
         self.start_paint()
 
-
         self.paint.end()   #结束
+        
     '''绘制流程步骤'''
     def start_paint(self):
         self.PriceGridPaint()
@@ -80,6 +95,7 @@ class report_painter:
         self.volumePaint()
         self.pricePaint()
         self.xyPaint()
+        
     '''设置使用的字体'''
     def setFont(self,code='default'):
         self.paint.setFont(self.fonts[code])
@@ -120,10 +136,11 @@ class report_painter:
         self.paint.drawLine(self.w-self.grid_padding_right+44,0,
                             self.w-self.grid_padding_right+44,self.h-self.grid_padding_bottom+16)
         self.setPen('yellow')
-        self.paint.drawText(self.w-self.grid_padding_right+5,self.h-self.grid_padding_bottom-4,str('成交量'))
+        self.paint.drawText(self.w-self.grid_padding_right+5,self.h-self.grid_padding_bottom-4,_fromUtf8("成交量"))
         self.setPen('white')
         #右下角文字
-        self.paint.drawText(self.w-self.grid_padding_right+12,self.h-self.grid_padding_bottom+12,str('实时'))
+        self.paint.drawText(self.w-self.grid_padding_right+12,self.h-self.grid_padding_bottom+12,_fromUtf8("实时"))
+        
     '''绘制成交量走势表格'''
     def VolumeGridPaint(self):
         sum_width  = self.grid_padding_left + self.grid_padding_right
@@ -150,15 +167,14 @@ class report_painter:
             self.paint.drawLine(x1,y1,x2,y1) #画价位虚线
 
             vol_int = int(cnt*x*px_h_radio)
-            vol_str = str(vol_int)
+            vol_str = _fromUtf8(str(vol_int))
             fw = self.metrics.width(vol_str) #获得文字宽度
             fh = self.metrics.height()/2   #获得文字高度
             self.setPen('yellow')
             self.paint.drawText(x2+40-fw,y1+fh,vol_str) #写入文字
             self.setPen('white')
-            self.paint.drawText(x1-2-self.metrics.width(str(x)),y1+fh,str(x))    #写入文字
+            self.paint.drawText(x1-2-self.metrics.width(str(x)),y1+fh,_fromUtf8(str(x)))    #写入文字
             x-=1
-
 
     '''绘制左侧信息栏和盘口等内容'''
     def rightGridPaint(self):
@@ -187,16 +203,16 @@ class report_painter:
         #股票名称和代码
         self.setFont('yahei_14_bold')
         self.setPen('yellow')
-        name_str = str('%s %s'%(self.parent.stk_info['code'],self.parent.stk_info['name']))
+        name_str = _fromUtf8('%s %s'%(self.parent.stk_info['code'],self.parent.stk_info['name']))
         self.paint.drawText(_x+35,18,name_str)
         #委比和委差
         self.setFont('yahei_14')
-        zx_str = str('最新')
+        zx_str = _fromUtf8("最新")
         self.paint.drawText(_x+3  ,156,zx_str)
         self.setPen('gray')
-        wb_str = str('委比')
-        wc_str = str('委差')
-        xs_str = str('现手')
+        wb_str = _fromUtf8("委比")
+        wc_str = _fromUtf8("委差")
+        xs_str = _fromUtf8("现手")
         self.paint.drawText(_x+3  ,39,wb_str)
         self.paint.drawText(_x+100,39,wc_str)
         self.paint.drawText(_x+100,156,xs_str)
@@ -205,7 +221,7 @@ class report_painter:
         left_field_list = ['涨跌','涨幅','振幅','总手','总额','换手','分笔']
         i = 1
         for field in left_field_list:
-            field_str = str(field)
+            field_str = _fromUtf8(field)
             self.paint.drawText(_x+3,253+(i*17),field_str)
             i+=1
 
@@ -213,12 +229,12 @@ class report_painter:
 
         i = 1
         for field in right_field_list:
-            field_str = str(field)
+            field_str = _fromUtf8(field)
             self.paint.drawText(_x+100,253+(i*17),field_str)
             i+=1
 
-        wp_str = str('外盘')
-        np_str = str('内盘')
+        wp_str = _fromUtf8("外盘")
+        np_str = _fromUtf8("内盘")
         self.paint.drawText(_x+3,395,wp_str)
         self.paint.drawText(_x+100,395,np_str)
         #卖①②③④⑤
@@ -226,13 +242,13 @@ class report_painter:
         i = 0
         sell_queue = ['卖⑤','卖④','卖③','卖②','卖①']
         for sell in sell_queue:
-            sell_str = str(sell)
+            sell_str = _fromUtf8(sell)
             self.paint.drawText(_x+3,62+(i*18),sell_str)
             i+=1
         #买①②③④⑤
         buy_queue = ['买①','买②','买③','买④','买⑤']
         for buy in buy_queue:
-            buy_str = str(buy)
+            buy_str = _fromUtf8(buy)
             self.paint.drawText(_x+3,87+(i*18),buy_str)
             i+=1
 
@@ -301,8 +317,9 @@ class report_painter:
             if price_float < lastclose:
                 self.setPen('green')
 
-            self.paint.drawText(x1-fw-2,y1+fh,price) #写入文字
-            self.paint.drawText(x2+40-r_fw,y1+r_fh,radio_str) #写入文字
+            self.paint.drawText(x1-fw-2,y1+fh,_fromUtf8(price)) #写入文字
+            self.paint.drawText(x2+40-r_fw,y1+r_fh,_fromUtf8(radio_str)) #写入文字
+            
     '''绘制x,y准星'''
     def xyPaint(self):
         if self.parent.m_x >= self.grid_padding_left and self.parent.m_x<=self.w-self.grid_padding_right and self.parent.m_y>=self.grid_padding_top and self.parent.m_y<=self.h-self.grid_padding_bottom:
@@ -335,25 +352,25 @@ class report_painter:
         x_pos = grid_width/2+self.grid_padding_left
 
         self.paint.drawLine(x_pos,y1,x_pos,y2)
-        self.paint.drawText(x_pos-fw/2,y2+12,str('13:00'))
+        self.paint.drawText(x_pos-fw/2,y2+12,_fromUtf8("13:00"))
 
         #时间轴09点30分
         x_pos = self.grid_padding_left
-        self.paint.drawText(x_pos,y2+12,str('09:30'))
+        self.paint.drawText(x_pos,y2+12,_fromUtf8("09:30"))
 
         #时间轴10点30分
         x_pos = grid_width*0.25+self.grid_padding_left
         self.paint.drawLine(x_pos,y1,x_pos,y2)
-        self.paint.drawText(x_pos-fw/2,y2+12,str('10:30'))
+        self.paint.drawText(x_pos-fw/2,y2+12,_fromUtf8("10:30"))
 
         #时间轴14点00分
         x_pos = grid_width*0.75+self.grid_padding_left
         self.paint.drawLine(x_pos,y1,x_pos,y2)
-        self.paint.drawText(x_pos-fw/2,y2+12,str('14:00'))
+        self.paint.drawText(x_pos-fw/2,y2+12,_fromUtf8("14:00"))
 
         #时间轴15点00分
         x_pos = grid_width+self.grid_padding_left
-        self.paint.drawText(x_pos-fw,y2+12,str('15:00'))
+        self.paint.drawText(x_pos-fw,y2+12,_fromUtf8("15:00"))
 
         #时间虚线 by 30min
         self.setPen('red_1px_dashline')
@@ -367,9 +384,9 @@ class report_painter:
     def topInfoPaint(self):
         self.setPen('yellow')
         self.paint.drawText(4+self.grid_padding_left,self.grid_padding_top-4
-                            ,str(self.parent.stk_info['name'])) #股票名称
+                            ,_fromUtf8(self.parent.stk_info['name'])) #股票名称
         self.paint.drawText(4+self.grid_padding_left+120,self.grid_padding_top-4
-                            ,str('均价线：')) #均价线
+                            ,_fromUtf8("均价线：")) #均价线
         lastclose = self.parent.stk_data['lastclose']
         close     = self.parent.stk_data['close']
         mma       = self.parent.stk_data['list']['mma'][-1]
@@ -391,15 +408,15 @@ class report_painter:
         if mma<close:
             self.setPen('red')
 
-        self.paint.drawText(4+self.grid_padding_left+55,self.grid_padding_top-4,str(str_1))
-        self.paint.drawText(4+self.grid_padding_left+165,self.grid_padding_top-4,str('%.2f'%mma)) #均价
+        self.paint.drawText(4+self.grid_padding_left+55,self.grid_padding_top-4,_fromUtf8(str_1))
+        self.paint.drawText(4+self.grid_padding_left+165,self.grid_padding_top-4,_fromUtf8('%.2f'%mma)) #均价
 
         #涨停价
         self.setPen('red')
-        self.paint.drawText(4+self.grid_padding_left+200,self.grid_padding_top-4,str('涨停价:%.2f'%(lastclose*1.1))) #均价
+        self.paint.drawText(4+self.grid_padding_left+200,self.grid_padding_top-4,_fromUtf8('涨停价:%.2f'%(lastclose*1.1))) #均价
         #跌停价
         self.setPen('green')
-        self.paint.drawText(4+self.grid_padding_left+280,self.grid_padding_top-4,str('跌停价:%.2f'%(lastclose*0.9))) #均价
+        self.paint.drawText(4+self.grid_padding_left+280,self.grid_padding_top-4,_fromUtf8('跌停价:%.2f'%(lastclose*0.9))) #均价
     '''绘制股价走势'''
     def pricePaint(self):
         sum_width  = self.grid_padding_left+self.grid_padding_right
@@ -477,7 +494,7 @@ class Test(QtGui.QWidget):
         QtGui.QWidget.__init__(self, parent)
         self.setMinimumSize(640, 430) #设置窗口最小尺寸
         self.setGeometry(300, 300, 960, 650)
-        self.setWindowTitle(str('超级狙击手[内部开发测试版]-行情实时走势'))
+        self.setWindowTitle(_fromUtf8("超级狙击手[内部开发测试版]-行情实时走势"))
         self.setStyleSheet("QWidget { background-color: black }")
         self.setWindowIcon(QtGui.QIcon('ruby.png'))
         self.setMouseTracking(True)
