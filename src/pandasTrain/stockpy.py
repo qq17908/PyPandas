@@ -1,6 +1,6 @@
 # encoding: utf-8
  
-<<<<<<< HEAD
+'''
 #from pandas import import Series,DataFrame
 import tushare as ts
 import pandas as pd
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     df.to_csv('d:/002410.csv',mode='a', header = None)
         
     print 'finish!'
-=======
+'''
 import tushare as ts
 import pandas as pd
 import numpy as np
@@ -46,5 +46,4 @@ if __name__ == '__main__':
     df = ts.get_today_ticks('002410',3,0.001)
     print df.head(100)
     
->>>>>>> refs/remotes/origin/master
     
