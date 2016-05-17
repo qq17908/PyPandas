@@ -22,7 +22,6 @@ class User(Base):
     id = Column(String(20),primary_key=True)
     name = Column(String(20))
 
-
 #初始化数据库链接
 engine = create_engine('sqlite:///ex1.db')
 
