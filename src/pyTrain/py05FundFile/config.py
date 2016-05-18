@@ -9,7 +9,7 @@ class initDatabase():
         metadata = MetaData();  
         
     def create_hist_data(self):
-        histdata = Table('ka_stock_hist_data',self.metadata,
+        histData = Table('ka_stock_hist_data',self.metadata,
                          Column('id',Integer,primary_key=True),
                          Column('code',String),
                          Column('ktype',String),
