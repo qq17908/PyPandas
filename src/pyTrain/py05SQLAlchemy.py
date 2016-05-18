@@ -16,9 +16,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql.elements import or_, not_
 from sqlalchemy.sql.functions import func
 from sqlalchemy.sql.sqltypes import DECIMAL
+import sqlalchemy
 
 Base = declarative_base()
 
+print sqlalchemy.__version__
 class User(Base):
     __tablename__='user'
     
@@ -128,7 +130,7 @@ print '########如何连接表？########'
 # print session.query(User.id, Friendship.user_id2).outerjoin(Friendship, User.id == Friendship.user_id1).all() # 用户及其朋友（无朋友则为 None，使用左连接）
 
 
-print '如何正确使用事务？'
+print '#####如何正确使用事务？#####'
 #如果被查询的字段没有加索引的话，就会变成锁整张表了
 # money = Column(DECIMAL(10, 2), index=True)
 # user1 = session2.query(User).with_lockmode('update').get(1)
