@@ -38,7 +38,7 @@ from sqlalchemy  import Column,Integer,String
 
 Base = declarative_base()
 
-class hist_data_table(Base):
+class Hist_data_table(Base):
     __tablename__ = 'ka_stock_hist_data'
     
     id = Column(Integer,primary_key = True)
