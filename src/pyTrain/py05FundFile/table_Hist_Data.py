@@ -35,9 +35,10 @@ turnover:换手率[注：指数无此项]
 
 from sqlalchemy.ext.declarative.api import declarative_base
 from sqlalchemy  import Column,Integer,String
+from sqlalchemy.engine import create_engine
+from sqlalchemy.orm.session import sessionmaker
 
 Base = declarative_base()
-
 class Hist_data_table(Base):
     __tablename__ = 'ka_stock_hist_data'
     
@@ -60,16 +61,28 @@ class Hist_data_table(Base):
     v_ma20 = Column(String)
     turnover = Column(String)
     
-
+    
 class SQLExecute():
-    def insertData(self,histData):
+    def insertData(self):
+        histData = Hist_data_table(code='002410',ktype='D',date='2016-05-18',open='13.00',high='13.05',close='12.45',low='12.38',volume='137127.11',price_change='-0.68',p_change='-5.18',ma5='13.142',ma10='13.390',ma20='13.282',v_ma5='98529.77',v_ma10='113193.34',v_ma20='113489.80',turnover = '1.58')
         
-        pass
     def selectData(self):
         pass
     def delData(self):
         pass
     def updateData(self):
         pass
+
+if __name__ == '__main__':
+    engine = create_engine(r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db', echo=True)
+    DBsession = sessionmaker(bind=engine)
+    session = DBsession()
+    #histData = Hist_data_table(code='002410',ktype='D',date='2016-05-18',open='13.00',high='13.05',close='12.45',low='12.38',volume='137127.11',price_change='-0.68',p_change='-5.18',ma5='13.142',ma10='13.390',ma20='13.282',v_ma5='98529.77',v_ma10='113193.34',v_ma20='113489.80',turnover = '1.58')
+    #session.add(histData)
+    #session.commit()
+    query = session.query(Hist_data_table)
+    for row in session.query(Hist_data_table,Hist_data_table.code).all():
+        print(row.Hist_data_table,row.code)
+    
     
     
