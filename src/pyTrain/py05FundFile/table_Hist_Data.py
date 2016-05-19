@@ -60,5 +60,16 @@ class Hist_data_table(Base):
     v_ma20 = Column(String)
     turnover = Column(String)
     
+
+class SQLExecute():
+    def insertData(self,histData):
+        
+        pass
+    def selectData(self):
+        pass
+    def delData(self):
+        pass
+    def updateData(self):
+        pass
     
     
