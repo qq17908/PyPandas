@@ -61,7 +61,6 @@ class Hist_data_table(Base):
     v_ma20 = Column(String)
     turnover = Column(String)
     
-    
 class SQLExecute():
     def insertData(self):
         histData = Hist_data_table(code='002410',ktype='D',date='2016-05-18',open='13.00',high='13.05',close='12.45',low='12.38',volume='137127.11',price_change='-0.68',p_change='-5.18',ma5='13.142',ma10='13.390',ma20='13.282',v_ma5='98529.77',v_ma10='113193.34',v_ma20='113489.80',turnover = '1.58')
@@ -74,7 +73,8 @@ class SQLExecute():
         pass
 
 if __name__ == '__main__':
-    engine = create_engine(r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db', echo=True)
+    engine = create_engine(r'sqlite:///H:\workspacePy\PythonTech\src\pyTrain\ex1.db', echo=True)
+    #engine = create_engine(r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db', echo=True)
     DBsession = sessionmaker(bind=engine)
     session = DBsession()
     #histData = Hist_data_table(code='002410',ktype='D',date='2016-05-18',open='13.00',high='13.05',close='12.45',low='12.38',volume='137127.11',price_change='-0.68',p_change='-5.18',ma5='13.142',ma10='13.390',ma20='13.282',v_ma5='98529.77',v_ma10='113193.34',v_ma20='113489.80',turnover = '1.58')

@@ -4,7 +4,8 @@ from sqlalchemy.orm.session import sessionmaker
 from sqlalchemy.ext.declarative.api import declarative_base
 
 Base = declarative_base()
-dbname =r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db'
+#dbname =r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db'
+dbname =r'sqlite:///H:\workspacePy\PythonTech\src\pyTrain\ex1.db'
 engine = None
 
 def init_sqlalchemy(dbname):
