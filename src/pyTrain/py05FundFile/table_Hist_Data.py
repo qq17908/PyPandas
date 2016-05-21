@@ -68,9 +68,18 @@ if __name__ == '__main__':
     conn = engine.connect()
     hist_data = DealData().get_stock_hist_data()
 #   result = conn.execute(histDataT.insert())
-    t1 = time.time()
-    
+   
     #insert数据
+    #1、add单条数据
+    #2、add 多条数据
+    t1 = time.time()
     conn.execute(histDataT.insert(),hist_data)
     print "InsertData:Total time for" + str(time.time() - t1) + "  secs"
+    
+    #删除数据
+    
+    #修改数据
+    
+    #查询数据
+    
     
