@@ -32,58 +32,45 @@ v_ma20:20日均量
 turnover:换手率[注：指数无此项]
 
 '''
-
-from sqlalchemy.ext.declarative.api import declarative_base
-from sqlalchemy  import Column,Integer,String
+import time
 from sqlalchemy.engine import create_engine
-from sqlalchemy.orm.session import sessionmaker
+from tushare.stock.trading import get_hist_data
+from sqlalchemy.sql.schema import Table, MetaData
 
-Base = declarative_base()
-class Hist_data_table(Base):
-    __tablename__ = 'ka_stock_hist_data'
-    
-    id = Column(Integer,primary_key = True)
-    code = Column(String)
-    ktype = Column(String)
-    date = Column(String)
-    open = Column(String)
-    high = Column(String)
-    close = Column(String)
-    low = Column(String)
-    volume = Column(String)
-    price_change = Column(String)
-    p_change = Column(String)
-    ma5 = Column(String)
-    ma10 = Column(String)
-    ma20 = Column(String)
-    v_ma5 = Column(String)
-    v_ma10 = Column(String)
-    v_ma20 = Column(String)
-    turnover = Column(String)
-    
-class SQLExecute():
-    def insertData(self):
-        histData = Hist_data_table(code='002410',ktype='D',date='2016-05-18',open='13.00',high='13.05',close='12.45',low='12.38',volume='137127.11',price_change='-0.68',p_change='-5.18',ma5='13.142',ma10='13.390',ma20='13.282',v_ma5='98529.77',v_ma10='113193.34',v_ma20='113489.80',turnover = '1.58')
+class DealData():
+    def get_stock_hist_data(self):
+        stockCode = '002410'
+        stockKtype = 'D'
+        stockDate = '2010-05-25'
+        stockEnd = '2016-05-19'
+        t0 = time.time()
         
-    def selectData(self):
-        pass
-    def delData(self):
-        pass
-    def updateData(self):
-        pass
-
+        hisdatadf = get_hist_data(stockCode,stockDate,stockEnd)
+        hisdatadf['ktype'] = stockKtype
+        hisdatadf['code']=stockCode
+        hisdatadf['date']=hisdatadf.index
+        
+        dataList = []
+        for index,row in hisdatadf.iterrows():
+            dataList.append(row.to_dict())
+         
+        print "DealData:Total time for" + str(time.time() - t0) + "  secs"
+        return dataList
+    
 if __name__ == '__main__':
     engine = create_engine(r'sqlite:///H:\workspacePy\PythonTech\src\pyTrain\ex1.db', echo=True)
     #engine = create_engine(r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db', echo=True)
-    DBsession = sessionmaker(bind=engine)
-    session = DBsession()
-    #histData = Hist_data_table(code='002410',ktype='D',date='2016-05-18',open='13.00',high='13.05',close='12.45',low='12.38',volume='137127.11',price_change='-0.68',p_change='-5.18',ma5='13.142',ma10='13.390',ma20='13.282',v_ma5='98529.77',v_ma10='113193.34',v_ma20='113489.80',turnover = '1.58')
-    #session.add(histData)
-    #session.commit()
+
     
-    query = session.query(Hist_data_table)
-    for row in session.query(Hist_data_table,Hist_data_table.code).all():
-        print(row.Hist_data_table,row.code)
+    metadata = MetaData(engine)
+    histDataT = Table('ka_stock_hist_data',metadata,autoload=True)
+        
+    conn = engine.connect()
+    hist_data = DealData().get_stock_hist_data()
+#   result = conn.execute(histDataT.insert())
+    t1 = time.time()
     
-    
+    #insert数据
+    conn.execute(histDataT.insert(),hist_data)
+    print "InsertData:Total time for" + str(time.time() - t1) + "  secs"
     

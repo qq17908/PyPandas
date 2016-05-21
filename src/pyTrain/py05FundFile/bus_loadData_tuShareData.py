@@ -1,8 +1,6 @@
 #coding:utf-8
 from pyTrain.py05FundFile.table_Hist_Data import Hist_data_table
 from tushare.stock.trading import get_hist_data
-import pandas as pd
-
 
 class TuShareData:
     '''
@@ -30,11 +28,24 @@ class TuShareData:
             turnover:换手率[注：指数无此项]
     '''
     def get_stock_hist_data(self):
-        return get_hist_data('002410','2016-05-17','2016-05-18')
+        stockCode = '002410'
+        stockKtype = 'D'
+        stockDate = '2016-05-18'
+        stockEnd = '2016-05-19'
+        
+        hisdatadf = get_hist_data(stockCode,stockDate,stockEnd)
+        hisdatadf['ktype'] = stockKtype
+        hisdatadf['code']=stockCode
+        hisdatadf['date']=hisdatadf.index
+        
+        dataList = []
+        for index,row in hisdatadf.iterrows():
+            dataList.append(row.to_dict())
+            
+        return dataList
 
 if __name__ == '__main__':
     histData = TuShareData().get_stock_hist_data()
-    dictHD = histData.to_dict()
-    for hist in histData.to_dict():
-        print hist
+
+
 #     print histData
