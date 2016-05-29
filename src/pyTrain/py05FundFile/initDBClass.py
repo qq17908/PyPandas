@@ -5,7 +5,8 @@ from sqlalchemy.engine import create_engine
 
 class initDatabase():
     def __init__(self):
-        self._engine = create_engine(r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db', echo=True)
+        #self._engine = create_engine(r'sqlite:///C:\Users\Liang.Lu\workspacepy\PythonTech\src\pyTrain\ex1.db', echo=True)
+        self._engine= create_engine(r'sqlite:///H:\workspacePy\PythonTech\src\pyTrain\ex1.db', echo=True)
         self._metadata = MetaData(self._engine);  
         
     def create_hist_data(self):

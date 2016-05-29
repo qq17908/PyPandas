@@ -55,9 +55,6 @@ for index,row in hisdatadf.iterrows():
     l.append(row.to_dict())
 
 
-    
-
-
 tmphisdataUnit1 = hisdatadf.iloc[0].to_dict()
 tmphisdataUnit2 = hisdatadf.iloc[1].to_dict()
 l = [tmphisdataUnit1,tmphisdataUnit2]
